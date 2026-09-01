@@ -1,0 +1,138 @@
+const H = require('./report.js');
+const { P, Rich, H1, H2, H3, Bullet, Num, Tbl, TableCaption } = H;
+
+module.exports = [
+  H1('2. Software Requirements Specification'),
+  P('This section records the requirements agreed at the start of the project. It corresponds to the Phase 1 deliverable.'),
+
+  H2('2.1 Stakeholders'),
+  P('Three groups interact with the system directly, and one benefits from it indirectly.'),
+  Tbl(
+    ['Stakeholder', 'Role in the system', 'Primary need'],
+    [
+      ['Registry / Administrator', 'Configures the academic structure, creates accounts, manages rosters and reads all reports.', 'A single trustworthy record of attendance across the university, and early sight of students at risk of exclusion.'],
+      ['Lecturer', 'Takes the register for their own classes and reviews their own cohort.', 'To record attendance in seconds without losing teaching time, and to see who is falling behind.'],
+      ['Student', 'Checks themselves in and monitors their own record.', 'To know their current percentage in every class, and to be warned before they breach the 75% rule.'],
+      ['Faculty management', 'Indirect consumer of the reporting output.', 'Reliable figures for progression and examination-eligibility decisions.'],
+    ],
+    [1900, 3400, 4060],
+  ),
+  TableCaption('Stakeholders and their needs'),
+
+  H2('2.2 Functional Requirements'),
+  P('Requirements are grouped by module and numbered for traceability. Section 5 maps test cases back to these identifiers.'),
+
+  H3('2.2.1 Authentication and Access Control'),
+  Tbl(['ID', 'Requirement'], [
+    ['FR-01', 'A user shall sign in with an email address and password.'],
+    ['FR-02', 'The system shall direct each user to the portal matching their role on sign-in.'],
+    ['FR-03', 'The system shall refuse sign-in to an inactive account, even when the password is correct.'],
+    ['FR-04', 'The system shall sign out a user whose account is deactivated during an active session.'],
+    ['FR-05', 'The system shall limit failed sign-in attempts to five per email address and IP address.'],
+    ['FR-06', 'A user shall be able to change their own password and update their own profile.'],
+    ['FR-07', 'The system shall deny a user access to any portal or record outside their role and ownership.'],
+  ], [1100, 8260]),
+  TableCaption('Authentication and access control requirements'),
+
+  H3('2.2.2 Administrator Module'),
+  Tbl(['ID', 'Requirement'], [
+    ['FR-08', 'The administrator shall create, read, update and delete faculties, programs, courses and semesters.'],
+    ['FR-09', 'The administrator shall create a lecturer, which also creates the matching sign-in account.'],
+    ['FR-10', 'The administrator shall create a student, which also creates the matching sign-in account.'],
+    ['FR-11', 'The administrator shall create class sections linking a course, a semester and a lecturer.'],
+    ['FR-12', 'The administrator shall define a weekly timetable of one or more slots for each class section.'],
+    ['FR-13', 'The administrator shall enroll students onto a class roster individually or in bulk.'],
+    ['FR-14', 'The system shall prevent a student being enrolled twice on the same roster.'],
+    ['FR-15', 'The administrator shall reset any password and activate or deactivate any account.'],
+    ['FR-16', 'The system shall prevent an administrator deactivating their own account.'],
+    ['FR-17', 'The system shall prevent deletion of a record that still has dependent records.'],
+    ['FR-18', 'The system shall permit exactly one semester to be active at a time.'],
+  ], [1100, 8260]),
+  TableCaption('Administrator module requirements'),
+
+  H3('2.2.3 Lecturer Module'),
+  Tbl(['ID', 'Requirement'], [
+    ['FR-19', 'A lecturer shall see only the class sections assigned to them.'],
+    ['FR-20', 'A lecturer shall generate a semester of class sessions in bulk from the section timetable.'],
+    ['FR-21', 'A lecturer shall create an individual session for a make-up or one-off class.'],
+    ['FR-22', 'A lecturer shall mark each student as present, late, absent or excused, with an optional remark.'],
+    ['FR-23', 'A lecturer shall open a session for student self check-in and close it again.'],
+    ['FR-24', 'The system shall mark every student still unmarked as absent when a session is closed.'],
+    ['FR-25', 'A lecturer shall view a live display of the check-in code and of who has checked in.'],
+    ['FR-26', 'A lecturer shall view and download an attendance report for their own classes.'],
+  ], [1100, 8260]),
+  TableCaption('Lecturer module requirements'),
+
+  H3('2.2.4 Student and Check-in Module'),
+  Tbl(['ID', 'Requirement'], [
+    ['FR-27', 'A student shall view their attendance percentage for every class they are enrolled in.'],
+    ['FR-28', 'The system shall warn a student whose attendance in any class is below the required minimum.'],
+    ['FR-29', 'A student shall view their session-by-session history for each class.'],
+    ['FR-30', 'A student shall check themselves in by scanning a QR code displayed by the lecturer.'],
+    ['FR-31', 'A student shall check themselves in by typing a six-character code, as an alternative to scanning.'],
+    ['FR-32', 'The system shall refuse a check-in when the code has expired, the session is not open, the student is not enrolled, or the student has already checked in.'],
+    ['FR-33', 'The system shall record a check-in made after a configurable grace period as late rather than present.'],
+  ], [1100, 8260]),
+  TableCaption('Student and check-in module requirements'),
+
+  H3('2.2.5 Reporting Module'),
+  Tbl(['ID', 'Requirement'], [
+    ['FR-34', 'The system shall calculate attendance as attended sessions divided by countable sessions, as a percentage.'],
+    ['FR-35', 'The system shall exclude sessions that are not yet closed from the calculation.'],
+    ['FR-36', 'The system shall exclude excused absences from the denominator rather than counting them against the student.'],
+    ['FR-37', 'The system shall list every student below the required minimum, ordered worst first.'],
+    ['FR-38', 'The system shall produce reports at university, class-section and individual-student level.'],
+    ['FR-39', 'The system shall allow every report to be downloaded as CSV and printed.'],
+  ], [1100, 8260]),
+  TableCaption('Reporting module requirements'),
+
+  H2('2.3 Non-Functional Requirements'),
+  Tbl(['ID', 'Category', 'Requirement'], [
+    ['NFR-01', 'Security', 'Passwords shall be stored using a one-way hash, never in plain text.'],
+    ['NFR-02', 'Security', 'All state-changing requests shall be protected against cross-site request forgery.'],
+    ['NFR-03', 'Security', 'All database access shall use parameter binding, so user input cannot alter a query.'],
+    ['NFR-04', 'Security', 'All user-supplied content shall be escaped on output to prevent script injection.'],
+    ['NFR-05', 'Performance', 'A report shall be produced with a fixed number of queries regardless of the number of students it covers.'],
+    ['NFR-06', 'Usability', 'The interface shall be usable on a mobile phone browser, since students check in on their phones.'],
+    ['NFR-07', 'Portability', 'The system shall run on a standard XAMPP installation with no image-processing extension and no front-end build step.'],
+    ['NFR-08', 'Maintainability', 'The attendance rules shall be defined in one place, so the marking, QR and code paths cannot diverge.'],
+    ['NFR-09', 'Integrity', 'A student shall have at most one attendance outcome per session, enforced by the database.'],
+  ], [1100, 1700, 6560]),
+  TableCaption('Non-functional requirements'),
+
+  H2('2.4 Input and Output Specification'),
+  P('The table below summarises what each module consumes and produces.'),
+  Tbl(['Module', 'Input', 'Processing', 'Output'], [
+    ['Sign-in', 'Email, password', 'Credential check, active-account check, rate limiting', 'Authenticated session; redirect to the role portal'],
+    ['Course / section setup', 'Codes, titles, credit hours, capacity, timetable slots', 'Validation, uniqueness checks, foreign-key resolution', 'Stored records; confirmation message'],
+    ['Enrollment', 'Selected student identifiers', 'Duplicate filtering, bulk insert', 'Roster entries; count of students added'],
+    ['Session generation', 'Date range', 'Expansion of timetable slots across the range, skipping any that exist', 'Scheduled sessions; count created'],
+    ['Register marking', 'Status and remark per student', 'Roster verification, upsert of records', 'Attendance records; saved confirmation'],
+    ['QR check-in', 'Scanned token or typed six-character code', 'Token validity, session state, enrollment and duplicate checks; late-window evaluation', 'One attendance record marked present or late'],
+    ['Session close', 'Confirmation', 'Bulk insert of absences for unmarked students; credential retirement', 'Closed session; count auto-marked absent'],
+    ['Reporting', 'Semester, faculty or date-range filters', 'Single aggregate query with conditional summation', 'On-screen tables, percentage bars, CSV file'],
+  ], [1500, 2200, 3160, 2500]),
+  TableCaption('Input, processing and output by module'),
+
+  H2('2.5 Platform and Tools'),
+  Tbl(['Component', 'Version', 'Purpose and justification'], [
+    ['PHP', '8.5.0', 'Server language. Backed enumerations are used throughout to model attendance states safely.'],
+    ['Laravel', '13.29', 'MVC framework. Supplies routing, the Eloquent ORM, validation, hashing, CSRF protection and a test harness, removing the need to hand-roll security primitives.'],
+    ['MariaDB', '10.4.32 (XAMPP)', 'Relational database, MySQL-compatible. Chosen because the assignment specifies MySQL and XAMPP is the standard lab environment.'],
+    ['Bootstrap', '5.3.3 (CDN)', 'Responsive CSS framework, loaded from a content delivery network so the project needs no asset build step.'],
+    ['Bootstrap Icons', '1.11.3 (CDN)', 'Icon set used for status badges and navigation.'],
+    ['endroid/qr-code', '6.1.3', 'QR code generation. Chosen because it emits SVG using pure PHP; the alternatives require the gd or imagick extension, neither of which is installed.'],
+    ['PHPUnit', '12.5', 'Automated testing, run against an in-memory SQLite database for speed.'],
+    ['Composer', '2.x', 'PHP dependency management.'],
+  ], [1700, 1700, 5960]),
+  TableCaption('Platform and tools'),
+  Rich([
+    'Note that ',
+    { text: 'no Node.js, npm or front-end build step is required', bold: true },
+    '. Bootstrap is served from a CDN, and the only client-side code is plain browser JavaScript for the QR display and a few form conveniences. The system runs after ',
+    { text: 'composer install', font: 'Consolas', size: 19 },
+    ', a database migration, and ',
+    { text: 'php artisan serve', font: 'Consolas', size: 19 },
+    '.',
+  ]),
+];

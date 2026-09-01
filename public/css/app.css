@@ -1,0 +1,190 @@
+/*
+ * EAMU Attendance - theme layered over Bootstrap 5.
+ * Loaded as a plain stylesheet; this project has no asset build step.
+ */
+:root {
+    --eamu-navy: #12233f;
+    --eamu-navy-soft: #1b3157;
+    --eamu-gold: #c9a227;
+    --eamu-sidebar-width: 250px;
+}
+
+body {
+    background-color: #f4f6fa;
+    font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- Shell ---------- */
+.app-sidebar {
+    width: var(--eamu-sidebar-width);
+    background: linear-gradient(180deg, #12233f 0%, #1b3157 100%);
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1030;
+    overflow-y: auto;
+}
+
+.app-main {
+    margin-left: var(--eamu-sidebar-width);
+    min-height: 100vh;
+}
+
+.app-sidebar .nav-link {
+    color: rgba(255, 255, 255, .72);
+    border-radius: .5rem;
+    padding: .55rem .85rem;
+    margin-bottom: .15rem;
+    font-size: .93rem;
+}
+
+.app-sidebar .nav-link:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, .08);
+}
+
+.app-sidebar .nav-link.active {
+    color: #fff;
+    background-color: rgba(201, 162, 39, .22);
+    box-shadow: inset 3px 0 0 var(--eamu-gold);
+}
+
+.app-sidebar .nav-section {
+    font-size: .7rem;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .38);
+    padding: 1rem .85rem .35rem;
+}
+
+.brand-mark {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: .6rem;
+    background: var(--eamu-gold);
+    color: var(--eamu-navy);
+    font-weight: 700;
+    flex: none;
+}
+
+.avatar-bubble {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--eamu-navy);
+    color: #fff;
+    font-size: .78rem;
+    font-weight: 600;
+}
+
+/* ---------- Cards & tables ---------- */
+.card {
+    border: 1px solid #e6e9f0;
+    border-radius: .7rem;
+    box-shadow: 0 1px 2px rgba(18, 35, 63, .04);
+}
+
+.stat-card .stat-icon {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: .6rem;
+    font-size: 1.25rem;
+}
+
+.table > :not(caption) > * > * {
+    padding: .65rem .75rem;
+}
+
+.table thead th {
+    font-size: .74rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #6b7891;
+    font-weight: 600;
+    border-bottom-width: 1px;
+}
+
+.table-hover > tbody > tr:hover > * {
+    background-color: #f8fafc;
+}
+
+/* ---------- Attendance bars ---------- */
+.attendance-bar {
+    height: 7px;
+    border-radius: 4px;
+    background-color: #e9edf3;
+    overflow: hidden;
+}
+
+.attendance-bar > span {
+    display: block;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.row-at-risk {
+    background-color: #fff6f6 !important;
+}
+
+/* ---------- Register marking ---------- */
+.register-row .btn-check:checked + .btn {
+    font-weight: 600;
+}
+
+/* ---------- QR kiosk ---------- */
+.kiosk {
+    min-height: 100vh;
+    background: radial-gradient(circle at 50% 0%, #1b3157 0%, #0d1a2f 65%);
+    color: #fff;
+}
+
+.kiosk-qr {
+    background: #fff;
+    padding: 1.25rem;
+    border-radius: 1rem;
+    line-height: 0;
+    box-shadow: 0 18px 48px rgba(0, 0, 0, .38);
+}
+
+.kiosk-qr svg {
+    width: 100%;
+    height: auto;
+    max-width: 340px;
+    display: block;
+}
+
+.kiosk-code {
+    font-family: "Cascadia Mono", Consolas, "SFMono-Regular", monospace;
+    font-size: clamp(2.4rem, 7vw, 4rem);
+    letter-spacing: .5rem;
+    font-weight: 700;
+    color: var(--eamu-gold);
+    text-indent: .5rem;
+}
+
+.kiosk-checkin-list {
+    max-height: 46vh;
+    overflow-y: auto;
+}
+
+@media print {
+    .app-sidebar, .app-topbar, .no-print { display: none !important; }
+    .app-main { margin-left: 0 !important; }
+    body { background: #fff; }
+}
+
+@media (max-width: 991.98px) {
+    .app-sidebar {
+        transform: translateX(-100%);
+        transition: transform .2s ease-in-out;
+    }
+    .app-sidebar.show { transform: translateX(0); }
+    .app-main { margin-left: 0; }
+}

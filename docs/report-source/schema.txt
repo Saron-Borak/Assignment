@@ -1,0 +1,103 @@
+attendance_records|id|bigint(20) unsigned|NO|PRI|
+attendance_records|attendance_session_id|bigint(20) unsigned|NO|MUL|
+attendance_records|student_id|bigint(20) unsigned|NO|MUL|
+attendance_records|status|varchar(20)|NO|MUL|
+attendance_records|marked_via|varchar(20)|NO||'manual'
+attendance_records|marked_at|timestamp|YES||NULL
+attendance_records|marked_by|bigint(20) unsigned|YES|MUL|NULL
+attendance_records|remarks|varchar(255)|YES||NULL
+attendance_records|created_at|timestamp|YES||NULL
+attendance_records|updated_at|timestamp|YES||NULL
+attendance_sessions|id|bigint(20) unsigned|NO|PRI|
+attendance_sessions|class_section_id|bigint(20) unsigned|NO|MUL|
+attendance_sessions|session_date|date|NO|MUL|
+attendance_sessions|start_time|time|NO||
+attendance_sessions|end_time|time|NO||
+attendance_sessions|topic|varchar(255)|YES||NULL
+attendance_sessions|status|varchar(20)|NO|MUL|'scheduled'
+attendance_sessions|late_after_minutes|tinyint(3) unsigned|NO||15
+attendance_sessions|qr_token|varchar(64)|YES|UNI|NULL
+attendance_sessions|qr_expires_at|timestamp|YES||NULL
+attendance_sessions|checkin_code|varchar(6)|YES|MUL|NULL
+attendance_sessions|opened_at|timestamp|YES||NULL
+attendance_sessions|closed_at|timestamp|YES||NULL
+attendance_sessions|created_by|bigint(20) unsigned|YES|MUL|NULL
+attendance_sessions|created_at|timestamp|YES||NULL
+attendance_sessions|updated_at|timestamp|YES||NULL
+class_schedules|id|bigint(20) unsigned|NO|PRI|
+class_schedules|class_section_id|bigint(20) unsigned|NO|MUL|
+class_schedules|day_of_week|tinyint(3) unsigned|NO||
+class_schedules|start_time|time|NO||
+class_schedules|end_time|time|NO||
+class_schedules|room|varchar(50)|YES||NULL
+class_schedules|created_at|timestamp|YES||NULL
+class_schedules|updated_at|timestamp|YES||NULL
+class_sections|id|bigint(20) unsigned|NO|PRI|
+class_sections|course_id|bigint(20) unsigned|NO|MUL|
+class_sections|semester_id|bigint(20) unsigned|NO|MUL|
+class_sections|lecturer_id|bigint(20) unsigned|NO|MUL|
+class_sections|section_code|varchar(10)|NO||
+class_sections|room|varchar(50)|YES||NULL
+class_sections|capacity|smallint(5) unsigned|NO||40
+class_sections|created_at|timestamp|YES||NULL
+class_sections|updated_at|timestamp|YES||NULL
+courses|id|bigint(20) unsigned|NO|PRI|
+courses|faculty_id|bigint(20) unsigned|NO|MUL|
+courses|code|varchar(20)|NO|UNI|
+courses|title|varchar(255)|NO||
+courses|credit_hours|tinyint(3) unsigned|NO||3
+courses|description|text|YES||NULL
+courses|created_at|timestamp|YES||NULL
+courses|updated_at|timestamp|YES||NULL
+enrollments|id|bigint(20) unsigned|NO|PRI|
+enrollments|class_section_id|bigint(20) unsigned|NO|MUL|
+enrollments|student_id|bigint(20) unsigned|NO|MUL|
+enrollments|status|varchar(20)|NO|MUL|'enrolled'
+enrollments|enrolled_at|date|NO||
+enrollments|created_at|timestamp|YES||NULL
+enrollments|updated_at|timestamp|YES||NULL
+faculties|id|bigint(20) unsigned|NO|PRI|
+faculties|code|varchar(20)|NO|UNI|
+faculties|name|varchar(255)|NO||
+faculties|created_at|timestamp|YES||NULL
+faculties|updated_at|timestamp|YES||NULL
+lecturers|id|bigint(20) unsigned|NO|PRI|
+lecturers|user_id|bigint(20) unsigned|NO|UNI|
+lecturers|faculty_id|bigint(20) unsigned|NO|MUL|
+lecturers|staff_no|varchar(30)|NO|UNI|
+lecturers|title|varchar(30)|YES||NULL
+lecturers|created_at|timestamp|YES||NULL
+lecturers|updated_at|timestamp|YES||NULL
+programs|id|bigint(20) unsigned|NO|PRI|
+programs|faculty_id|bigint(20) unsigned|NO|MUL|
+programs|code|varchar(20)|NO|UNI|
+programs|name|varchar(255)|NO||
+programs|created_at|timestamp|YES||NULL
+programs|updated_at|timestamp|YES||NULL
+semesters|id|bigint(20) unsigned|NO|PRI|
+semesters|code|varchar(20)|NO|UNI|
+semesters|name|varchar(255)|NO||
+semesters|start_date|date|NO||
+semesters|end_date|date|NO||
+semesters|is_active|tinyint(1)|NO|MUL|0
+semesters|created_at|timestamp|YES||NULL
+semesters|updated_at|timestamp|YES||NULL
+students|id|bigint(20) unsigned|NO|PRI|
+students|user_id|bigint(20) unsigned|NO|UNI|
+students|program_id|bigint(20) unsigned|NO|MUL|
+students|student_no|varchar(30)|NO|UNI|
+students|intake_year|smallint(5) unsigned|NO||
+students|status|varchar(20)|NO|MUL|'active'
+students|created_at|timestamp|YES||NULL
+students|updated_at|timestamp|YES||NULL
+users|id|bigint(20) unsigned|NO|PRI|
+users|name|varchar(255)|NO||
+users|email|varchar(255)|NO|UNI|
+users|email_verified_at|timestamp|YES||NULL
+users|password|varchar(255)|NO||
+users|role|varchar(20)|NO|MUL|
+users|phone|varchar(30)|YES||NULL
+users|is_active|tinyint(1)|NO|MUL|1
+users|remember_token|varchar(100)|YES||NULL
+users|created_at|timestamp|YES||NULL
+users|updated_at|timestamp|YES||NULL
