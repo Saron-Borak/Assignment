@@ -346,19 +346,3 @@ the QR kiosk and the typed-code fallback can never drift apart. Every attendance
 read goes through `AttendanceReportService`, so the percentage rule is defined in
 exactly one place.
 
-  faculties ----< programs ----< students >---- users
-      |                              |            |
-      |                              |            |
-      +----< courses                 |       lecturers
-      |         |                    |            |
-      +----< lecturers >-------------|------------+
-                |                    |
-                v                    v
-  semesters >--- class_sections ---< enrollments
-                 |          |
-                 |          +----< class_schedules
-                 v
-      attendance_sessions ----< attendance_records >---- students
- 
-  Legend:  ----<  one-to-many        >----  many-to-one
-
